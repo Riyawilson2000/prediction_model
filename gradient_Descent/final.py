@@ -40,8 +40,8 @@ print(g)
 
 #Looping to find desired weights
 
-gradient, fValue_gradient, _ = utils.gradient_descent(x, w, g,1000)  # 65
-fista, fValue_fista = utils.fista(x, w, g, iterations=1000)                      # 26
+gradient, fValue_gradient, _ = utils.gradient_descent(x, w, g,100)  # 65
+fista, fValue_fista = utils.fista(x, w, g, iterations=100)                      # 26
 
 
 f_gradient, _ = utils.objective_function(x, gradient, g)
