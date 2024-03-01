@@ -73,7 +73,7 @@ def gradient_descent(x,w, g, iterations=100, learning_step=1/3,epsilon = 1e-3):
 
 
 # Define the FISTA function
-def fista(x, w, g, L=3, iterations=100):
+def fista(x, w, g, L=100, iterations=100):
 
     w_0 = w          # w_k-1
     y_1 = w_0
