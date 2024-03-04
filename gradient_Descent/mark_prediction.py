@@ -1,6 +1,4 @@
-### DIABETES PREDICTION ###
-
-## Dataset: diabetes_prediction_dataset_normalised.xlsx
+## Dataset: student-mat.xlsx
 
 
 # Importing libraries
@@ -11,23 +9,25 @@ from utils import gradient_descent, fista, objective_function
 
 
 # Load the dataset
-df = pd.read_excel('gradient_Descent/diabetes_prediction_dataset_normalised.xlsx')
+df = pd.read_excel('gradient_Descent/student-mat.xlsx')
 
 
 # X
-x = df.loc[1 : 50000,["gender","Age-normalised","hypertension","heart_disease",
-              "bmi-normalised","HbA1c-normalised",
-              "blood_glucose level-normalised"]].to_numpy(dtype=np.float16)
+x = df.loc[:,["G1", "G2", "age", "absences",
+              "studytime", "address", "school"]].to_numpy()
 
 
 # G
-g = df.loc[1 : 50000,["diabetes"]].to_numpy(dtype=np.int8)
+g = df.loc[:,["price_range_normalised"]].to_numpy()
 
 # W
-w = np.zeros((7,), dtype=np.int8)
+w = np.zeros((7,))
 
 gradient, fValue_gradient, _ = gradient_descent(x, w, g, 100)
 print("OKAY")
+
+
+
 
 
 # fista, fValue_fista = fista(x, w, g, iterations=100)

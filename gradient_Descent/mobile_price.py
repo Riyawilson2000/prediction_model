@@ -1,33 +1,33 @@
-### DIABETES PREDICTION ###
-
-## Dataset: diabetes_prediction_dataset_normalised.xlsx
+## Dataset: Mobile Price prediction dataset.csv
 
 
 # Importing libraries
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 from utils import gradient_descent, fista, objective_function
 
 
 # Load the dataset
-df = pd.read_excel('gradient_Descent/diabetes_prediction_dataset_normalised.xlsx')
+df = pd.read_csv('gradient_Descent/Mobile Price prediction dataset.csv')
 
 
 # X
-x = df.loc[1 : 50000,["gender","Age-normalised","hypertension","heart_disease",
-              "bmi-normalised","HbA1c-normalised",
-              "blood_glucose level-normalised"]].to_numpy(dtype=np.float16)
+x = df.loc[:,["battery_power_normalised", "blue",
+              "dual_sim", "four_g", "three_g", "touch_screen",
+              "wifi"]].to_numpy()
 
 
 # G
-g = df.loc[1 : 50000,["diabetes"]].to_numpy(dtype=np.int8)
+g = df.loc[:,["G3"]].to_numpy()
 
 # W
-w = np.zeros((7,), dtype=np.int8)
+w = np.zeros((7,))
 
 gradient, fValue_gradient, _ = gradient_descent(x, w, g, 100)
 print("OKAY")
+
+
+
 
 
 # fista, fValue_fista = fista(x, w, g, iterations=100)
