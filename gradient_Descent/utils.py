@@ -11,29 +11,25 @@ def gradient(x, w, g):
 
 
 # Defining Objective function
-def objective_function(x,w,g):
-    # z = x @ w
-    z = np.dot(x,w)
+def objective_function(x, w, g):
+    z = np.dot(x, w)
     y = 1/(1 + np.exp(-z))
    
-    # n = y.shape[0]
-    # g = g.reshape((n, 1))
-    # y = y.reshape((3,))
     return np.mean(np.square(y - g)), y
     
 
 # Defining gradient descent function
-def gradient_descent(x,w, g, iterations=100, learning_step=1/3,epsilon = 1e-3):
+def gradient_descent(x, w, g, iterations=100, learning_step=1/3, epsilon = 1e-3):
     # Initialising
-    iterations=iterations
-    h=learning_step
+    iterations = iterations
+    h = learning_step
     f_value = []
     weights = []
     previous_f = None
 
     
     
-    #Estimating optimal parameters
+    # Estimating optimal parameters
     for i in range(iterations):
         funct, y = objective_function(x, w, g)
         n = x.shape[0]
@@ -42,7 +38,7 @@ def gradient_descent(x,w, g, iterations=100, learning_step=1/3,epsilon = 1e-3):
         # if previous_f and (previous_f - funct) < 0:
         #     break
 
-        previous_f=funct
+        previous_f = funct
 
         if abs(previous_f) <= epsilon:
             break
@@ -53,22 +49,9 @@ def gradient_descent(x,w, g, iterations=100, learning_step=1/3,epsilon = 1e-3):
         # gradient =  -(2/ n) * np.sum(x * (g - y))
         gradient = (2 / n) * np.dot(x.T, (y - g) * y * (1 - y))
         
-        
-
-        # print(gradient.shape)
-        # print(w.shape)
-
         # Updating weights
         w = w - (h * gradient)
 
-
-        # Printing parameters for each 100th iteration
-        
-        print(f"Iteration {i+1}: objective function {funct}")
-        # print(f"value of f_gradient at {i+1} iteration: {np.mean(np.square(y - g))}")
-        
-
-    
     return w, f_value, weights
 
 
@@ -90,17 +73,15 @@ def fista(x, w, g, L=3, iterations=100):
         t_1, t_k = t_k, 1 + np.sqrt((1 + 4 * (t_1)**2)) / 2
         y_1 = w_k + ((t_1 -1) / t_k) * (w_k - w_0)
 
-        print(f"Iteration {k+1}: w_{k+1} {w_k}")
+        # print(f"Iteration {k+1}: w_{k+1} {w_k}")
         funct, _ = objective_function(x, w_k, g)
 
         function_list.append(funct)
 
         z = np.dot(x, w_k)
         y = 1/(1 + np.exp(-z))
-        # n = y.shape[0]
-        # g = g.reshape((n, 1))
 
-        print(f"value of f_fista at {k+1} iteration: {np.mean(np.square(y - g))}")
+        # print(f"value of f_fista at {k+1} iteration: {np.mean(np.square(y - g))}")
         
     return w_k, function_list
 
@@ -110,12 +91,5 @@ if __name__ == "__main__":
     w = np.ones((3,1))
     g = np.array([0.1, 0.2, 0.5])
 
-    # print(g.shape)
-
-    # funct = f(x, w, g)
-    # print(funct)
-    # print(np.gradient(funct))
 
     weight, f_value, weights = gradient_descent(x, w, g, learning_step= 0.1)
-
-
