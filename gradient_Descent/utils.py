@@ -1,64 +1,61 @@
 # importing necessary libraries
+# importing necessary libraries
 import numpy as np
 
 
 # Defining Objective function
 def objective_function(x, w, g):
-    # z = x @ w
     z = np.dot(x, w)
-    # y = 1 / (1 + np.exp(-z))
+    # y = 1/(1 + np.exp(-z))
 
-    # n = y.shape[0]
-    # g = g.reshape((n, 1))
-    # y = y.reshape((3,))
-    # return np.mean(np.square(y - g)), y
     return np.mean(np.square(z - g)), z
 
-# # Defining gradient descent function
-# def gradient_descent(x, w, g, learning_step=1/3, epsilon=0.1):
-#     # Initialising
-#     iterations = 0
-#     h = learning_step
-#     f_value = []
-#     weights = []
-#     previous_f = None
 
-#     # Estimating optimal parameters
-#     while True:
-#         # Calculate objective function and gradient
-#         funct, y = objective_function(x, w, g)
-#         n = x.shape[0]
-
-#         # Update previous objective function value
-        
-#         previous_f = funct
-
-#         f_value.append(funct)
-#         weights.append(w)
-
-#         gradient = (2 / n) * np.dot(x.T, (y - g) * y * (1 - y))
-#         # gradient = (2 / n) * np.dot(x.T, (y - g))
-
-#         # Updating weights
-#         w = w - (h * gradient) 
-
-#         # w = np.clip(w, 0, 1)
-
-#         print(f"Iteration {iterations + 1}: objective function {funct}")
-#         print(f"Weights: {w}")
-
-#         iterations += 1
-
-
-#         if iterations == 100:
-#             break
-
-#         if abs(previous_f - funct) <= epsilon:
-#             break
-#     return w, funct, iterations, weights, f_value
-
-def gradient_descent(x,w, g,  learning_step=1/3,epsilon = 1e-3):
+def gradient_descent_while(x, w, g, learning_step=1 / 3, epsilon=1e-3):
     # Initialising
+    h = learning_step
+    f_value = []
+    weights = []
+    previous_f = None
+    iterations = 0
+
+    # Estimating optimal parameters
+    while True:
+        funct, z = objective_function(x, w, g)
+        n = x.shape[0]
+
+        if (
+            previous_f
+            and (previous_f - funct) < 0
+            and abs(previous_f - funct) <= epsilon
+        ):
+            break
+
+        previous_f = funct
+
+        # if abs(previous_f) <= epsilon:
+        #     break
+
+        f_value.append(funct)
+        weights.append(w)
+
+        # gradient =  -(2/ n) * np.sum(x * (g - y))
+        gradient = (2 / n) * np.dot(x.T, (z - g))
+
+        # Updating weights
+        w = w - (h * gradient)
+
+        iterations += 1
+
+    print(f"Iteration number: {iterations}")
+    return w, f_value, weights
+
+
+# Defining gradient descent function
+def gradient_descent(x, w, g, iterations=100, learning_step=1 / 3, epsilon=1e-3):
+    # Initialising
+    iterations = iterations
+    h = learning_step
     iterations = iterations
     h = learning_step
     f_value = []
@@ -66,7 +63,9 @@ def gradient_descent(x,w, g,  learning_step=1/3,epsilon = 1e-3):
     previous_f = None
 
     # Estimating optimal parameters
+    # Estimating optimal parameters
     for i in range(iterations):
+        funct, z = objective_function(x, w, g)
         funct, z = objective_function(x, w, g)
         n = x.shape[0]
 
@@ -82,25 +81,11 @@ def gradient_descent(x,w, g,  learning_step=1/3,epsilon = 1e-3):
         weights.append(w)
 
         # gradient =  -(2/ n) * np.sum(x * (g - y))
-        gradient = (2 / n) * np.dot(x.T, (y - g) * y * (1 - y))
-        # gradient = (2 / n) * np.dot(x.T, (z - g) )
-        
-        
-
-        # print(gradient.shape)
-        # print(w.shape)
+        gradient = (2 / n) * np.dot(x.T, (z - g))
 
         # Updating weights
         w = w - (h * gradient)
 
-        # Printing parameters for each 100th iteration
-
-        # print(f"Iteration {i+1}: objective function {funct}")
-        # print(f"value of f_gradient at {i+1} iteration: {np.mean(np.square(y - g))}")
-        print(f"Weights:{w}")
-        iterations=iterations+1
-
-    
     return w, f_value, weights
 
 
@@ -141,16 +126,8 @@ def gradient_descent(x,w, g,  learning_step=1/3,epsilon = 1e-3):
 if __name__ == "__main__":
     x = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
     w = np.ones((3, 1))
+    x = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    w = np.ones((3, 1))
     g = np.array([0.1, 0.2, 0.5])
 
-    # print(g.shape)
-
-    # funct = f(x, w, g)
-    # print(funct)
-    # print(np.gradient(funct))
-
-    # weight, f_value, weights = gradient_descent(x, w, g, learning_step= 0.1)
-    # weight, f_value = fista(x, w, g,L= 0.1)
-
-
-
+    weight, f_value, weights = gradient_descent(x, w, g, learning_step=0.1)
