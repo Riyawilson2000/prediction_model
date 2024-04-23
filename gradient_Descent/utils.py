@@ -18,6 +18,46 @@ def objective_function(x, w, g):
     return np.mean(np.square(z - g)), z
 
 
+def gradient_descent_while(x, w, g, learning_step=1 / 3, epsilon=1e-3):
+    # Initialising
+    h = learning_step
+    f_value = []
+    weights = []
+    previous_f = None
+    iterations = 0
+
+    # Estimating optimal parameters
+    while True:
+        funct, z = objective_function(x, w, g)
+        n = x.shape[0]
+
+        if (
+            previous_f
+            and (previous_f - funct) < 0
+            and abs(previous_f - funct) <= epsilon
+        ):
+            break
+
+        previous_f = funct
+
+        # if abs(previous_f) <= epsilon:
+        #     break
+
+        f_value.append(funct)
+        weights.append(w)
+
+        # gradient =  -(2/ n) * np.sum(x * (g - y))
+        gradient = (2 / n) * np.dot(x.T, (z - g))
+
+        # Updating weights
+        w = w - (h * gradient)
+
+        iterations += 1
+
+    print(f"Iteration number: {iterations}")
+    return w, f_value, weights
+
+
 # Defining gradient descent function
 def gradient_descent(x, w, g, iterations=100, learning_step=1 / 3, epsilon=1e-3):
     # Initialising
