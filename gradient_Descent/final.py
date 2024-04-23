@@ -4,7 +4,6 @@ import utils
 import matplotlib.pyplot as plt
 
 
-
 # Reading dataset
 df = pd.read_excel("gradient_Descent/student-mat.xlsx") #Mark Prediction
 # df=pd.read_excel("gradient_Descent/diabetes_prediction_dataset_normalised.xlsx") # Diabetes Prediction
@@ -35,16 +34,15 @@ g = df.loc[:,["G3"]].to_numpy() # Mark prediction
 
 
 
-#Looping to find desired weights
+# Looping to find desired weights
 
-weightsGradient, fValue_gradient, iterationsGradient, weightslistGradient, functionvalues_gradient= utils.gradient_descent(x, w, g)  # 65
-# fista, fValue_fista = utils.fista(x, w, g,iterations=500)                      # 26
+gradient, fValue_gradient, _ = utils.gradient_descent(x, w, g, 100)  # 65
+# fista, fValue_fista = utils.fista(x, w, g, iterations=100)  # 26
 
 
-f_gradient, _ = utils.objective_function(x, weightsGradient, g)
+f_gradient, _ = utils.objective_function(x, gradient, g)
 # f_fista, _ = utils.objective_function(x, fista, g)
-print(f"The value of objective function using gradient descent : {fValue_gradient}")
-print(f"Weights:{weightsGradient}")
+print(f"The value of objective function using gradient descent : {f_gradient}")
 # print(f"The value of objective function using fista : {f_fista}")
 
 # if f_gradient > f_fista:
@@ -53,11 +51,25 @@ print(f"Weights:{weightsGradient}")
 #     print(f"gradient is better.")
 
 
-
 # # gradient plot
-        
-# plt.plot(iterationsGradient, functionvalues_gradient, label = 'gradient descent', color ='r')
-# # plt.plot(range(1, len(fValue_fista) + 1), fValue_fista, label = 'fista', color = 'b')
+
+# plt.plot(
+#     range(1, len(fValue_gradient) + 1),
+#     fValue_gradient,
+#     label="gradient descent",
+#     color="r",
+# )
+# plt.plot(range(1, len(fValue_fista) + 1), fValue_fista, label="fista", color="b")
+# plt.xlabel("Iterations")
+# plt.ylabel("Objective function value")
+# plt.title("Iteration vs objective function value")
+# plt.legend()
+# plt.show()
+
+
+# fista plot
+
+# plt.plot(range(1, len(fValue_fista) + 1), fValue_fista)
 # plt.xlabel("Iterations")
 # plt.ylabel("Objective function value")
 # plt.title("Iteration vs objective function value")
@@ -93,8 +105,6 @@ print(f"Weights:{weightsGradient}")
 # plt.title("xi vs Gi graph")
 # plt.legend()
 # plt.show()
-
-
 
 
 # #  0.31999990253440114  --- 227  --  0.0035

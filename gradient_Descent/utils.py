@@ -1,13 +1,13 @@
-#importing necessary libraries
+# importing necessary libraries
 import numpy as np
 
 
 # Defining Objective function
-def objective_function(x,w,g):
+def objective_function(x, w, g):
     # z = x @ w
-    z = np.dot(x,w)
-    y = 1/(1 + np.exp(-z))
-   
+    z = np.dot(x, w)
+    # y = 1 / (1 + np.exp(-z))
+
     # n = y.shape[0]
     # g = g.reshape((n, 1))
     # y = y.reshape((3,))
@@ -59,25 +59,21 @@ def objective_function(x,w,g):
 
 def gradient_descent(x,w, g,  learning_step=1/3,epsilon = 1e-3):
     # Initialising
-    iterations=0
-    h=learning_step
+    iterations = iterations
+    h = learning_step
     f_value = []
     weights = []
     previous_f = None
 
-    
-    
-    #Estimating optimal parameters
+    # Estimating optimal parameters
     for i in range(iterations):
-        funct, y = objective_function(x, w, g)
-        # funct, z = objective_function(x, w, g)
+        funct, z = objective_function(x, w, g)
         n = x.shape[0]
-        
 
         # if previous_f and (previous_f - funct) < 0:
         #     break
 
-        previous_f=funct
+        previous_f = funct
 
         if abs(previous_f) <= epsilon:
             break
@@ -96,12 +92,10 @@ def gradient_descent(x,w, g,  learning_step=1/3,epsilon = 1e-3):
 
         # Updating weights
         w = w - (h * gradient)
-        # w=np.clip(w,0,1)                              
-        # w= 1/(1+ np.exp(-w))
-        
+
         # Printing parameters for each 100th iteration
-        
-        print(f"Iteration {i+1}: objective function {funct}")
+
+        # print(f"Iteration {i+1}: objective function {funct}")
         # print(f"value of f_gradient at {i+1} iteration: {np.mean(np.square(y - g))}")
         print(f"Weights:{w}")
         iterations=iterations+1
@@ -145,8 +139,8 @@ def gradient_descent(x,w, g,  learning_step=1/3,epsilon = 1e-3):
 
 
 if __name__ == "__main__":
-    x = np.array([[1, 2, 3], [4, 5, 6], [7,8 , 9]])
-    w = np.ones((3,1))
+    x = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    w = np.ones((3, 1))
     g = np.array([0.1, 0.2, 0.5])
 
     # print(g.shape)
