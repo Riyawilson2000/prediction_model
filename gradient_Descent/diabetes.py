@@ -11,20 +11,20 @@ from utils import gradient_descent, fista, objective_function
 
 
 # Load the dataset
-df = pd.read_excel('gradient_Descent/diabetes_prediction_dataset_normalised.xlsx')
+df = pd.read_excel('gradient_Descent/diabetes_prediction_dataset_normalised1.xlsx')
 
 
 # X
 x = df.loc[1 : 500,["gender","Age-normalised","hypertension","heart_disease",
               "bmi-normalised","HbA1c-normalised",
-              "blood_glucose level-normalised"]].to_numpy(dtype=np.float16) # 500 rows
+              "blood_glucose level-normalised","smoking_history"]].to_numpy(dtype=np.float16) # 500 rows
 
 
 # G
 g = df.loc[1 : 500,["diabetes"]].to_numpy(dtype=np.int8)
 
 # W
-w = np.zeros((7,1), dtype=np.int8)
+w = np.zeros((8,1), dtype=np.int8)
 
 
 # gradient descent and fista algorithms - comparison

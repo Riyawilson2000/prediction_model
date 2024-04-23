@@ -2,10 +2,11 @@ import pandas as pd
 import numpy as np
 import utils
 import matplotlib.pyplot as plt
+from utils import gradient_descent_while
 
 
 # Reading dataset
-df = pd.read_excel("gradient_Descent/student-mat.xlsx") #Mark Prediction
+df = pd.read_excel("gradient_Descent/student-mat1.xlsx") #Mark Prediction
 # df=pd.read_excel("gradient_Descent/diabetes_prediction_dataset_normalised.xlsx") # Diabetes Prediction
 
 
@@ -20,8 +21,8 @@ x = df1.to_numpy()
 
 
 # Creating weight vector
-np.random.seed(42)
-w = np.random.rand(12,1)
+
+w = np.zeros((12,1))
 # w=np.clip(w,0,1)
 
 
@@ -35,8 +36,10 @@ g = df.loc[:,["G3"]].to_numpy() # Mark prediction
 
 
 # Looping to find desired weights
-
-gradient, fValue_gradient, _ = utils.gradient_descent(x, w, g, 100)  # 65
+gradient, fValue_gradient, weightList_gradient = gradient_descent_while(
+    x, w, g, epsilon=1e-1
+)
+# gradient, fValue_gradient, _ = utils.gradient_descent(x, w, g, 100)  # 65
 # fista, fValue_fista = utils.fista(x, w, g, iterations=100)  # 26
 
 
