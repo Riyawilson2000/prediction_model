@@ -1,6 +1,7 @@
 # importing necessary libraries
 # importing necessary libraries
 import numpy as np
+import Cross_entropy
 
 # Defining gradient 
 def gradient(x,w,g):
@@ -26,9 +27,10 @@ def gradient_descent_while(x, w, g, learning_step=1 / 3, epsilon=1e-3):
 
     # Estimating optimal parameters
     while True:
-        funct, y = objective_function(x, w, g)
-        z = np.dot(x, w)
-        n = x.shape[0]
+        # funct, y = objective_function(x, w, g)
+        funct,y= Cross_entropy.binary_cross_entropy(x,w,g)
+        
+        
 
         if (
             previous_f
@@ -45,8 +47,9 @@ def gradient_descent_while(x, w, g, learning_step=1 / 3, epsilon=1e-3):
         weights.append(w)
 
         # gradient =  -(2/ n) * np.sum(x * (g - y))
-        gradient = (2 / n) * np.dot(x.T, (z - g)*y*(1-y))
-
+        # gradient = (2 / n) * np.dot(x.T, (z - g)*y*(1-y))
+        # gradient = np.dot(x.T, (z - g))/ len(g)
+        gradient=np.dot(x.T,(y-g)*y*(1-y))/len(g)
 
         # Updating weights
         w = w - (h * gradient)
@@ -58,7 +61,7 @@ def gradient_descent_while(x, w, g, learning_step=1 / 3, epsilon=1e-3):
 
 
 # Defining gradient descent function
-def gradient_descent(x, w, g, iterations=100, learning_step=1 / 3, epsilon=1e-3):
+def gradient_descent(x, w, g, iterations=100, learning_step=1 / 3, epsilon=1e-1):
     # Initialising
     iterations = iterations
     h = learning_step

@@ -3,13 +3,13 @@ import numpy as np
 def binary_cross_entropy(x,w,g):
 
     z = np.dot(x,w)
-    # y = 1/(1 + np.exp(-z))
-    z= np.clip(z, 1e-15, 1 - 1e-15)
+    y = 1/(1 + np.exp(-z))
+    # z= np.clip(z, 1e-15, 1 - 1e-15)
     
-    # loss = -np.mean(g * np.log(y) + (1 - g) * np.log(1 - y)) 
-    # return loss, y
-    loss = -np.mean(g * np.log(z) + (1 - g) * np.log(1 - z)) 
-    return loss, z
+    # loss = -np.mean(g * np.log(z) + (1 - g) * np.log(1 - z)) 
+    # return loss, z
+    loss = -np.mean(g * np.log(y) + (1 - g) * np.log(1 - y)) 
+    return loss, y
 
 
 def gradient_descent(x,w, g, iterations=100, learning_step=1/3,epsilon = 1e-3):
@@ -24,8 +24,8 @@ def gradient_descent(x,w, g, iterations=100, learning_step=1/3,epsilon = 1e-3):
     
     #Estimating optimal parameters
     for i in range(iterations):
-        # funct, y = binary_cross_entropy(x, w, g)
         funct, z = binary_cross_entropy(x, w, g)
+        # funct, z = binary_cross_entropy(x, w, g)
         # n = x.shape[0]
         
 
@@ -41,7 +41,7 @@ def gradient_descent(x,w, g, iterations=100, learning_step=1/3,epsilon = 1e-3):
         
         gradient = np.dot(x.T, (z- g)) / len(g)
 
-        w = w - (h * +gradient)
+        w = w - (h * gradient)
         # w=np.clip(w,0,1)
         # w=1/(1+(np.exp(-w)))
         # w = np.modf(w)
